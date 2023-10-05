@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Moria - Orçamento de Reserva</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Moriá Eco Lodge - Orçamento de Reserva</h1>
+        <form id="orcamento-form">
+            <label for="nome">Nome do Hóspede:</label>
+            <input type="text" id="nome" required>
+
+            <label>Categorias do Quarto:</label>
+            <div class="checkbox-container">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="classic" name="categorias" value="classic">
+                    Classic
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="comfort" name="categorias" value="comfort">
+                    Comfort
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="lodge" name="categorias" value="lodge">
+                    Lodge
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="luxoHidro" name="categorias" value="luxoHidro">
+                    Luxo Hidro
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="premiumJacuzzi" name="categorias" value="premiumJacuzzi">
+                    Premium Jacuzzi
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="loftHidro" name="categorias" value="loftHidro">
+                    Loft Hidro
+                </label>
+            </div>
+
+            <label for="data-checkin">Check-in:</label>
+            <input type="date" id="data-checkin" required>
+
+            <label for="data-checkout">Check-out:</label>
+            <input type="date" id="data-checkout" required min="" onchange="setMinDate()">
+
+            <label for="adultos">Número de Adultos:</label>
+            <input type="number" id="adultos" required min="0">
+
+            <label for="criancas">Número de Crianças:</label>
+            <input type="number" id="criancas" required min="0">
+
+            <label for="valor-classic">Diária da Categoria Classic (R$):</label>
+            <input type="number" id="valor-classic" step="0.01" required>
+
+            <button type="submit">Calcular Orçamento</button>
+        </form>
+
+       <div id="resultado" style="display: none;">
+            
+            <!-- Resultado do orçamento será exibido aqui -->
+        </div>
+    </div>
+
+    <script src="script.js">d</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Fundo mais claro */
+    display: flex;
+    justify-content: center; /* Centralizar horizontalmente */
+    align-items: center; /* Centralizar verticalmente */
+    min-height: 100vh; /* Garante que o conteúdo ocupe a altura total da tela */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 10px; /* Arredondamento suave das bordas */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333; /* Cor de texto mais escura */
+}
+
+/* Formulário */
+form {
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #666; /* Cor de texto mais escura */
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select,
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+/* Botão */
+button[type="submit"] {
+    background-color: #FF5733; /* Laranja */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #E64A2E; /* Laranja mais escuro */
+}
+
+/* Resultado do Orçamento */
+#resultado {
+    display: none;
+    background-color: #ffffff; /* Fundo branco */
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#resultado p {
+    margin-bottom: 10px;
+    color: #333; /* Cor de texto mais escura */
+}
+
+/* Estilos para categorias */
+.checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #666; /* Cor de texto mais escura */
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Estilos para categorias selecionadas */
+#categorias-selecionadas {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333; /* Cor de texto mais escura */
+}
+
+/* Estilos para telas menores */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    form {
+        padding: 10px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    input[type="checkbox"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    button[type="submit"] {
+        padding: 8px 16px;
+    }
+}
