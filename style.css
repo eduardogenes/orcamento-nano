@@ -1,59 +1,65 @@
 /* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
     background-color: #f0f0f0; /* Fundo mais claro */
     display: flex;
     justify-content: center; /* Centralizar horizontalmente */
     align-items: center; /* Centralizar verticalmente */
     min-height: 100vh; /* Garante que o conteúdo ocupe a altura total da tela */
+    margin: 0;
 }
 
 .container {
     max-width: 800px;
-    margin: 0 auto;
     padding: 20px;
     background-color: #ffffff; /* Fundo branco */
     border-radius: 10px; /* Arredondamento suave das bordas */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
 }
 
-
 h1 {
-    font-size: 24px;
+    font-size: 28px;
     margin-bottom: 20px;
     color: #333; /* Cor de texto mais escura */
+    text-align: center;
 }
 
 /* Formulário */
 form {
     padding: 20px;
-    border-radius: 4px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.);
 }
 
 label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #666; /* Cor de texto mais escura */
+    color: #333; /* Cor de texto mais escura */
 }
 
 input[type="text"],
 input[type="date"],
-input[type="number"] {
+input[type="number"],
+select {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: #f9f9f9; /* Fundo mais claro */
     border-radius: 4px;
+    transition: border-color 0.3s, width 0.3s; /* Adicionamos uma transição para suavizar as mudanças */
 }
 
-select,
-input[type="checkbox"] {
-    width: auto;
-    margin-right: 10px;
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #FF5733; /* Cor de destaque (laranja) ao focar */
+    outline: none;
+    width: 100%; /* Evita que o input cresça ao focar */
 }
 
 /* Botão */
@@ -61,9 +67,10 @@ button[type="submit"] {
     background-color: #FF5733; /* Laranja */
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button[type="submit"]:hover {
@@ -77,8 +84,9 @@ button[type="submit"]:hover {
     padding: 20px;
     margin-top: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    
 }
 
 #resultado p {
@@ -98,7 +106,7 @@ button[type="submit"]:hover {
     align-items: center;
     margin-right: 20px;
     font-weight: bold;
-    color: #666; /* Cor de texto mais escura */
+    color: #333; /* Cor de texto mais escura */
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -129,14 +137,33 @@ button[type="submit"]:hover {
     input[type="text"],
     input[type="date"],
     input[type="number"],
-    select,
-    input[type="checkbox"] {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
+    select {
+        padding: 10px;
     }
 
     button[type="submit"] {
-        padding: 8px 16px;
+        padding: 10px 20px;
     }
 }
+
+.checkbox-label {
+    flex-basis: calc(33.33% - 10px); /* Distribui as opções em 3 colunas */
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+    justify-content: space-
+  }
+
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+
+
+  
