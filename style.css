@@ -166,4 +166,14 @@ button[type="submit"]:hover {
   }
 
 
-  
+  #informacoes-uteis {
+    display: none;
+  }
+
+  .checkbox-label {
+    margin-right: 10px; /* Espaço à direita do checkbox */
+}
+
+button[type="submit"] {
+    margin-left: 10px; /* Espaço à esquerda do botão */
+}
