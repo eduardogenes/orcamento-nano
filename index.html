@@ -82,7 +82,12 @@
       <!-- Resultado do orçamento será exibido aqui -->
     </div>
   </div>
-
-  <script src="script.js"></script>
+  <script>
+    function setMinDate() {
+        const dataCheckin = document.getElementById("data-checkin").value;
+        document.getElementById("data-checkout").min = dataCheckin;
+    }
+</script>
+  <script src="./script.js"></script>
 </body>
 </html>
