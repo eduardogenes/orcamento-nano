@@ -71,7 +71,7 @@ select:focus {
 
 /* Botão */
 button[type="submit"] {
-    background-color: #FF5733; /* Laranja */
+    background-color: #f96847; /* Laranja */
     color: #fff;
     border: none;
     padding: 12px 24px;
@@ -195,4 +195,29 @@ button[type="submit"] {
     border-radius: 5px;
     max-height: 200px; /* Defina a altura máxima desejada */
     overflow-y: auto; /* Adicione uma barra de rolagem vertical quando necessário */
+}
+
+#copy {
+    display:flex;
+    justify-content: flex-end ;
+ 
+ }
+
+#copiar-botao {
+    top: 2.1rem;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #ffd4ca;
+    color: #bdbaba;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#copiar-botao:hover {
+    background-color: #f48369;
+    transition: 0.3s;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    
 }
