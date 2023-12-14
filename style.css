@@ -1,4 +1,11 @@
 /* Estilos gerais */
+
+* {
+    font-family: Arial, sans-serif;
+    font-weight: 10px;
+    color: #555
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0; /* Fundo mais claro */
@@ -21,7 +28,7 @@ body {
 h1 {
     font-size: 28px;
     margin-bottom: 20px;
-    color: #333; /* Cor de texto mais escura */
+    /* color: #333; Cor de texto mais escura */
     text-align: center;
 }
 
@@ -36,7 +43,7 @@ label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #333; /* Cor de texto mais escura */
+    /* color: #240e9b; Cor de texto mais escura */
 }
 
 input[type="text"],
@@ -91,7 +98,7 @@ button[type="submit"]:hover {
 
 #resultado p {
     margin-bottom: 10px;
-    color: #333; /* Cor de texto mais escura */
+    /* color: #4b0b9f; Cor de texto mais escura */
 }
 
 /* Estilos para categorias */
@@ -106,7 +113,7 @@ button[type="submit"]:hover {
     align-items: center;
     margin-right: 20px;
     font-weight: bold;
-    color: #333; /* Cor de texto mais escura */
+    /* color: #17d50d; Cor de texto mais escura */
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -117,7 +124,7 @@ button[type="submit"]:hover {
 #categorias-selecionadas {
     font-weight: bold;
     margin-top: 10px;
-    color: #333; /* Cor de texto mais escura */
+    /* color: #008787; Cor de texto mais escura */
 }
 
 /* Estilos para telas menores */
@@ -150,7 +157,7 @@ button[type="submit"]:hover {
     flex-basis: calc(33.33% - 10px); /* Distribui as opções em 3 colunas */
     margin-right: 10px;
     font-size: 16px;
-    color: #333;
+    /* color: #a8c200; */
     justify-content: space-
   }
 
@@ -176,4 +183,16 @@ button[type="submit"]:hover {
 
 button[type="submit"] {
     margin-left: 10px; /* Espaço à esquerda do botão */
+}
+
+.lista-precos {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 200px; /* Defina a altura máxima desejada */
+    overflow-y: auto; /* Adicione uma barra de rolagem vertical quando necessário */
 }

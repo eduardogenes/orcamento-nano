@@ -1,7 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("orcamento-form");
   const resultado = document.getElementById("resultado");
+  
+  // Seletor do botão de copiar
+  const copiarBotao = document.getElementById("copiar-botao");
 
+  // Manipulador de evento para o botão de copiar
+  copiarBotao.addEventListener("click", function () {
+    // Seleciona o elemento de resultado
+    const resultado = document.getElementById("resultado");
+
+    // Cria um elemento de input temporário para copiar o texto
+    const inputTemporario = document.createElement("textarea");
+    inputTemporario.value = resultado.innerText; // Define o valor como o texto do resultado
+
+    // Adiciona o elemento de input temporário à página
+    document.body.appendChild(inputTemporario);
+
+    // Seleciona o texto dentro do elemento de input
+    inputTemporario.select();
+    inputTemporario.setSelectionRange(0, 99999); // Para dispositivos móveis
+
+    // Copia o texto para a área de transferência
+    document.execCommand("copy");
+
+    // Remove o elemento de input temporário da página
+    document.body.removeChild(inputTemporario);
+
+    // Alerta o usuário que o texto foi copiado
+    alert("Texto copiado para a área de transferência!");
+  });
+  
   form.addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -155,24 +184,24 @@ document.addEventListener("DOMContentLoaded", function () {
   
           <p>Atenciosamente,</p>
           <p>Savio Siqueira</p>
-          <p>Moria Eco Lodge</p>
           <p>(85) 98109.7155</p>
           <p>reservas.moria@nanohoteis.com.br</p>
+          <p>Equipe Moria Eco Lodge</p>
           </ul>
           `;
       }
 
       const texto = `
         <p>Prezado(a) ${dados.nome},</p>
-        <p>Conforme solicitado, segue o orçamento para o período de: <br>
-        Checkin: ${dataCheckinFormatada} <br>
-        Checkout: ${dataCheckoutFormatada} <br>
-        Quantidade de diarias: ${numeroDias} diária(s)</p>
+        <p>Conforme solicitado, segue o orçamento: <br>
+        - Checkin: ${dataCheckinFormatada} <br>
+        - Checkout: ${dataCheckoutFormatada} <br>
+        - Total de diarias: ${numeroDias} <br>
+        - Número de adultos: ${dados.adultos} <br>
+        - Número de crianças: ${dados.criancas} </p>
         <pre>${listaPrecos}</pre>
 
         ${informacoesUteis}
-        <p>Atenciosamente,</p>
-        <p>Equipe do Moria Eco Lodge</p>
     `;
 
     return texto;
