@@ -113,6 +113,7 @@ const gerarTextoOrcamento = (dados, precoTotal, precosBase) => {
           </ul>
           `: '';
 
+          
     return `
         <p>Prezado(a),</p>
         <p>Conforme solicitado, segue o orçamento:<br>
