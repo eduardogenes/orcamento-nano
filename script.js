@@ -1,171 +1,96 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("orcamento-form");
-  const resultado = document.getElementById("resultado");
-  
-  // Seletor do botão de copiar
-  const copiarBotao = document.getElementById("copiar-botao");
-
-  // Manipulador de evento para o botão de copiar
-  copiarBotao.addEventListener("click", function () {
-    // Seleciona o elemento de resultado
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("orcamento-form");
     const resultado = document.getElementById("resultado");
+    const copiarBotao = document.getElementById("copiar-botao");
 
-    // Cria um elemento de input temporário para copiar o texto
+    copiarBotao.addEventListener("click", copiarTextoResultado);
+    form.addEventListener("submit", processarFormulario);
+});
+
+const copiarTextoResultado = () => {
+    const resultado = document.getElementById("resultado");
     const inputTemporario = document.createElement("textarea");
-    inputTemporario.value = resultado.innerText; // Define o valor como o texto do resultado
-
-    // Adiciona o elemento de input temporário à página
+    inputTemporario.value = resultado.innerText;
     document.body.appendChild(inputTemporario);
-
-    // Seleciona o texto dentro do elemento de input
     inputTemporario.select();
-    inputTemporario.setSelectionRange(0, 99999); // Para dispositivos móveis
-
-    // Copia o texto para a área de transferência
+    inputTemporario.setSelectionRange(0, 99999);
     document.execCommand("copy");
-
-    // Remove o elemento de input temporário da página
     document.body.removeChild(inputTemporario);
-
-    // Alerta o usuário que o texto foi copiado
     alert("Texto copiado para a área de transferência!");
-  });
-  
-  form.addEventListener("submit", function (e) {
-      e.preventDefault();
+};
 
-      if (!validarFormulario()) {
-          return; // Interrompe a execução se a validação falhar
-      }
+const processarFormulario = (e) => {
+    e.preventDefault();
+    if (!validarFormulario()) return;
+    const dadosOrcamento = coletarDadosFormulario();
+    const precosBase = calcularPrecoBase(dadosOrcamento.valorClassic, dadosOrcamento.incluirInformacoes);
+    const precoTotal = calcularPrecoTotal(precosBase, dadosOrcamento.categoriasSelecionadas, dadosOrcamento.dataCheckin, dadosOrcamento.dataCheckout);
+    resultado.innerHTML = gerarTextoOrcamento(dadosOrcamento, precoTotal, precosBase);
+    resultado.style.display = "block";
+};
 
-      const dadosOrcamento = coletarDadosFormulario();
-      const precosBase = calcularPrecoBase(dadosOrcamento.valorClassic, dadosOrcamento.incluirInformacoes);
-      const precoTotal = calcularPrecoTotal(precosBase, dadosOrcamento.categoriasSelecionadas, dadosOrcamento.dataCheckin, dadosOrcamento.dataCheckout);
-      const textoOrcamento = gerarTextoOrcamento(dadosOrcamento, precoTotal, precosBase);
-
-      // Exibir o texto na div resultado com formatação HTML
-      resultado.innerHTML = textoOrcamento;
-      resultado.style.display = "block"; // Mostrar a div resultado
-  });
-
-  function validarFormulario() {
-      const dataCheckin = document.getElementById("data-checkin").value;
-      const dataCheckout = document.getElementById("data-checkout").value;
-      const dataCheckinObj = new Date(dataCheckin);
-      const dataCheckoutObj = new Date(dataCheckout);
-
-      if (dataCheckinObj >= dataCheckoutObj) {
-          alert("A data de check-out deve ser posterior à data de check-in.");
-          return false;
-      }
-
-      return true; // Retorna verdadeiro se todas as validações passarem
-  }
-
-  function coletarDadosFormulario() {
-      return {
-          nome: document.getElementById("nome").value,
-          dataCheckin: document.getElementById("data-checkin").value,
-          dataCheckout: document.getElementById("data-checkout").value,
-          adultos: parseInt(document.getElementById("adultos").value),
-          criancas: parseInt(document.getElementById("criancas").value),
-          valorClassic: parseFloat(document.getElementById("valor-classic").value),
-          categoriasSelecionadas: Array.from(document.querySelectorAll('input[name="categorias"]:checked')).map(checkbox => checkbox.value),
-          incluirInformacoes: document.getElementById("info-uteis").checked
-      };
-  }
-
-  function calcularPrecoBase(valorClassic, incluirInformacoes) {
-      if (typeof valorClassic !== 'number' || isNaN(valorClassic) || valorClassic <= 0) {
-          alert("Por favor, insira um valor válido para a diária da categoria Classic.");
-          return {};
-      }
-
-      const valorComfort = valorClassic * 1.2;
-      const valorLodge = valorComfort * 1.2;
-      const valorLuxoHidro = valorLodge * 1.25;
-      const valorPremiumJacuzzi = valorLuxoHidro * 1.15;
-      const valorLoftHidro = valorPremiumJacuzzi * 1.3;
-
-      const precosBase = {
-          classic: valorClassic,
-          comfort: valorComfort,
-          lodge: valorLodge,
-          luxoHidro: valorLuxoHidro,
-          premiumJacuzzi: valorPremiumJacuzzi,
-          loftHidro: valorLoftHidro,
-      };
-
-      if (incluirInformacoes) {
-          precosBase.informacoesUteis = 50.0;
-      }
-
-      return precosBase;
-  }
-
-  function calcularPrecoTotal(precoBase, categoriasSelecionadas, dataCheckin, dataCheckout) {
-      const numeroDias = calcularNumeroDias(dataCheckin, dataCheckout);
-      let precoTotal = 0;
-
-      categoriasSelecionadas.forEach(categoria => {
-          precoTotal += precoBase[categoria];
-      });
-
-      return precoTotal * numeroDias;
-  }
-
-  function calcularNumeroDias(dataCheckin, dataCheckout) {
-      const dataCheckinObj = new Date(dataCheckin);
-      const dataCheckoutObj = new Date(dataCheckout);
-      const umDiaEmMilissegundos = 24 * 60 * 60 * 1000;
-      const diferencaEmDias = Math.round((dataCheckoutObj - dataCheckinObj) / umDiaEmMilissegundos);
-      return diferencaEmDias;
-  }
-
-  function gerarTextoOrcamento(dados, precoTotal, precosBase) {
-    const numeroDias = calcularNumeroDias(dados.dataCheckin, dados.dataCheckout);
-
-    // Função para formatar a data
-    function formatarData(dataString) {
-        const dataObj = new Date(dataString);
-        const dia = ('0' + dataObj.getDate()).slice(-2); // Adiciona '0' se o dia for menor que 10
-        const mes = ('0' + (dataObj.getMonth() + 1)).slice(-2); // Adiciona '0' se o mês for menor que 10
-        const ano = dataObj.getFullYear();
-        return `${dia}/${mes}/${ano}`;
+const validarFormulario = () => {
+    const dataCheckin = new Date(document.getElementById("data-checkin").value);
+    const dataCheckout = new Date(document.getElementById("data-checkout").value);
+    if (dataCheckin >= dataCheckout) {
+        alert("A data de check-out deve ser posterior à data de check-in.");
+        return false;
     }
+    return true;
+};
 
-    // Formatar datas de check-in e check-out
-    const dataCheckinFormatada = formatarData(dados.dataCheckin);
-    const dataCheckoutFormatada = formatarData(dados.dataCheckout);
+const coletarDadosFormulario = () => ({
+    nome: document.getElementById("nome").value,
+    dataCheckin: document.getElementById("data-checkin").value,
+    dataCheckout: document.getElementById("data-checkout").value,
+    adultos: parseInt(document.getElementById("adultos").value),
+    criancas: parseInt(document.getElementById("criancas").value),
+    valorClassic: parseFloat(document.getElementById("valor-classic").value),
+    categoriasSelecionadas: Array.from(document.querySelectorAll('input[name="categorias"]:checked')).map(checkbox => checkbox.value),
+    incluirInformacoes: document.getElementById("info-uteis").checked
+});
 
-    const categoriasNomes = {
-        classic: "Classic",
-        comfort: "Comfort",
-        lodge: "Lodge",
-        luxoHidro: "Luxo Hidro",
-        premiumJacuzzi: "Premium Jacuzzi",
-        loftHidro: "Loft Hidro"
+const calcularPrecoBase = (valorClassic, incluirInformacoes) => {
+    if (typeof valorClassic !== 'number' || isNaN(valorClassic) || valorClassic <= 0) {
+        alert("Por favor, insira um valor válido para a diária da categoria Classic.");
+        return {};
+    }
+    const precosBase = {
+        classic: valorClassic,
+        comfort: valorClassic * 1.2,
+        lodge: valorClassic * 1.44,
+        luxoHidro: valorClassic * 1.8,
+        premiumJacuzzi: valorClassic * 2.07,
+        loftHidro: valorClassic * 2.69
     };
+    if (incluirInformacoes) precosBase.informacoesUteis = 50.0;
+    return precosBase;
+};
 
-    let listaPrecos = '';
-    let listaPrecosTotais = ''; // Adicionado para armazenar os totais
-    dados.categoriasSelecionadas.forEach(categoria => {
-        // Verificar se o preço para a categoria existe
-        if (precosBase[categoria] !== undefined) {
+const calcularPrecoTotal = (precoBase, categoriasSelecionadas, dataCheckin, dataCheckout) => {
+    const numeroDias = calcularNumeroDias(dataCheckin, dataCheckout);
+    return categoriasSelecionadas.reduce((total, categoria) => total + (precoBase[categoria] || 0), 0) * numeroDias;
+};
+
+const calcularNumeroDias = (dataCheckin, dataCheckout) => {
+    const umDiaEmMilissegundos = 86400000; // 24 * 60 * 60 * 1000
+    return Math.round((new Date(dataCheckout) - new Date(dataCheckin)) / umDiaEmMilissegundos);
+};
+
+const gerarTextoOrcamento = (dados, precoTotal, precosBase) => {
+    const numeroDias = calcularNumeroDias(dados.dataCheckin, dados.dataCheckout);
+    const formatarData = dataString => new Date(dataString).toLocaleDateString('pt-BR');
+    const categoriasNomes = { classic: "Classic", comfort: "Comfort", lodge: "Lodge", luxoHidro: "Luxo Hidro", premiumJacuzzi: "Premium Jacuzzi", loftHidro: "Loft Hidro" };
+
+    let listaPrecos = dados.categoriasSelecionadas
+        .filter(categoria => precosBase[categoria] !== undefined)
+        .map(categoria => {
             const precoDiaria = precosBase[categoria].toFixed(2);
-            const totalCategoria = (precosBase[categoria] * numeroDias).toFixed(2); // Calcular o total da categoria
-            listaPrecos += `${categoriasNomes[categoria]}: R$ ${precoDiaria}/diária. Total = R$ ${totalCategoria}\n`;
-            listaPrecosTotais += `${categoriasNomes[categoria]}: R$ ${totalCategoria}\n`; // Adicionar o total à lista de totais
-        } else {
-            console.error(`Preço não encontrado para a categoria: ${categoria}`);
-        }
-    });
+            const totalCategoria = (precosBase[categoria] * numeroDias).toFixed(2);
+            return `${categoriasNomes[categoria]}: R$ ${precoDiaria}/diária. Total = R$ ${totalCategoria}\n`;
+        }).join('');
 
-    let informacoesUteis = '';
-    if (dados.incluirInformacoes) {
-        informacoesUteis = `
-
-          <p>INFORMAÇÕES ÚTEIS:</p>
+    const informacoesUteis = dados.incluirInformacoes ? `<p>INFORMAÇÕES ÚTEIS:</p>
             <ul>
             <li>Tarifas válidas e confirmação sujeita a disponibilidade.</li>
             <li>Nossas diárias incluem café da manhã e Wi-Fi gratuito.</li>
@@ -188,22 +113,17 @@ document.addEventListener("DOMContentLoaded", function () {
           <p>reservas.moria@nanohoteis.com.br</p>
           <p>Equipe Moria Eco Lodge</p>
           </ul>
-          `;
-      }
+          `: '';
 
-      const texto = `
-        <p>Prezado(a) ${dados.nome},</p>
-        <p>Conforme solicitado, segue o orçamento: <br>
-        - Checkin: ${dataCheckinFormatada} <br>
-        - Checkout: ${dataCheckoutFormatada} <br>
-        - Total de diarias: ${numeroDias} <br>
-        - Número de adultos: ${dados.adultos} <br>
-        - Número de crianças: ${dados.criancas} </p>
+    return `
+        <p>Prezado(a),</p>
+        <p>Conforme solicitado, segue o orçamento:<br>
+        - Checkin: ${formatarData(dados.dataCheckin)}<br>
+        - Checkout: ${formatarData(dados.dataCheckout)}<br>
+        - Total de diarias: ${numeroDias}<br>
+        - Número de adultos: ${dados.adultos}<br>
+        - Número de crianças: ${dados.criancas}</p>
         <pre>${listaPrecos}</pre>
-
         ${informacoesUteis}
     `;
-
-    return texto;
-  }
-});
+};
