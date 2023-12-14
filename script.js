@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("orcamento-form");
-    const resultado = document.getElementById("resultado");
     const copiarBotao = document.getElementById("copiar-botao");
-
     copiarBotao.addEventListener("click", copiarTextoResultado);
     form.addEventListener("submit", processarFormulario);
 });

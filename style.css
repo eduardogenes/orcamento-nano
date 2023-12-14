@@ -78,6 +78,7 @@ button[type="submit"] {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-left: 10px; /* Espaço à esquerda do botão */
 }
 
 button[type="submit"]:hover {
@@ -113,7 +114,9 @@ button[type="submit"]:hover {
     align-items: center;
     margin-right: 20px;
     font-weight: bold;
-    /* color: #17d50d; Cor de texto mais escura */
+    flex-basis: calc(33.33% - 10px); /* Distribui as opções em 3 colunas */
+    font-size: 16px;
+    justify-content: space-
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -152,15 +155,6 @@ button[type="submit"]:hover {
         padding: 10px 20px;
     }
 }
-
-.checkbox-label {
-    flex-basis: calc(33.33% - 10px); /* Distribui as opções em 3 colunas */
-    margin-right: 10px;
-    font-size: 16px;
-    /* color: #a8c200; */
-    justify-content: space-
-  }
-
   
   input[type="text"],
   input[type="number"],
@@ -177,13 +171,6 @@ button[type="submit"]:hover {
     display: none;
   }
 
-  .checkbox-label {
-    margin-right: 10px; /* Espaço à direita do checkbox */
-}
-
-button[type="submit"] {
-    margin-left: 10px; /* Espaço à esquerda do botão */
-}
 
 .lista-precos {
     font-family: Arial, sans-serif;
