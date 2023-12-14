@@ -95,29 +95,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const numeroDias = calcularNumeroDias(dataCheckin, dataCheckout);
   
       // Mapear os valores das categorias selecionadas para nomes completos
-      const categoriasNomes = categoriasSelecionadas.map(function(categoria) {
-        switch (categoria) {
-          case "classic":
-            return "Classic";
-          case "comfort":
-            return "Comfort";
-          case "lodge":
-            return "Lodge";
-          case "luxoHidro":
-            return "Luxo Hidro";
-          case "premiumJacuzzi":
-            return "Premium Jacuzzi";
-          case "loftHidro":
-            return "Loft Hidro";
-          default:
-            return categoria;
-        }
-      });
+      const categoriasNomes = {
+        classic: "Classic",
+        comfort: "Comfort",
+        lodge: "Lodge",
+        luxoHidro: "Luxo Hidro",
+        premiumJacuzzi: "Premium Jacuzzi",
+        loftHidro: "Loft Hidro"
+      };
   
       // Construir a lista de preços por categoria
       let listaPrecos = '';
-      categoriasSelecionadas.forEach((categoria, index) => {
-        listaPrecos += `${categoriasNomes[index]} R$${precosBase[categoria].toFixed(2)} por diária\n`;
+      categoriasSelecionadas.forEach(categoria => {
+        listaPrecos += `${categoriasNomes[categoria]} R$${precosBase[categoria].toFixed(2)} por diária\n`;
       });
   
       // Construir o texto das informações úteis se a opção estiver marcada
@@ -164,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
   
       return texto;
-    }
+  }
+  
   });
   
