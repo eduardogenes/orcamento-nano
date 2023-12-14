@@ -96,6 +96,19 @@ document.addEventListener("DOMContentLoaded", function () {
   function gerarTextoOrcamento(dados, precoTotal, precosBase) {
     const numeroDias = calcularNumeroDias(dados.dataCheckin, dados.dataCheckout);
 
+    // Função para formatar a data
+    function formatarData(dataString) {
+        const dataObj = new Date(dataString);
+        const dia = ('0' + dataObj.getDate()).slice(-2); // Adiciona '0' se o dia for menor que 10
+        const mes = ('0' + (dataObj.getMonth() + 1)).slice(-2); // Adiciona '0' se o mês for menor que 10
+        const ano = dataObj.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+    }
+
+    // Formatar datas de check-in e check-out
+    const dataCheckinFormatada = formatarData(dados.dataCheckin);
+    const dataCheckoutFormatada = formatarData(dados.dataCheckout);
+
     const categoriasNomes = {
         classic: "Classic",
         comfort: "Comfort",
@@ -106,20 +119,25 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     let listaPrecos = '';
+    let listaPrecosTotais = ''; // Adicionado para armazenar os totais
     dados.categoriasSelecionadas.forEach(categoria => {
         // Verificar se o preço para a categoria existe
         if (precosBase[categoria] !== undefined) {
-            listaPrecos += `${categoriasNomes[categoria]}: R$${precosBase[categoria].toFixed(2)} por diária\n`;
+            const precoDiaria = precosBase[categoria].toFixed(2);
+            const totalCategoria = (precosBase[categoria] * numeroDias).toFixed(2); // Calcular o total da categoria
+            listaPrecos += `${categoriasNomes[categoria]}: R$ ${precoDiaria}/diária. Total = R$ ${totalCategoria}\n`;
+            listaPrecosTotais += `${categoriasNomes[categoria]}: R$ ${totalCategoria}\n`; // Adicionar o total à lista de totais
         } else {
             console.error(`Preço não encontrado para a categoria: ${categoria}`);
         }
     });
 
-      let informacoesUteis = '';
-      if (dados.incluirInformacoes) {
-          informacoesUteis = `
-              <p>INFORMAÇÕES ÚTEIS:</p>
-              <ul>
+    let informacoesUteis = '';
+    if (dados.incluirInformacoes) {
+        informacoesUteis = `
+
+          <p>INFORMAÇÕES ÚTEIS:</p>
+            <ul>
             <li>Tarifas válidas e confirmação sujeita a disponibilidade.</li>
             <li>Nossas diárias incluem café da manhã e Wi-Fi gratuito.</li>
             <li>Nosso check-in é a partir das 14:00 e check-out até as 12:00 - Para early check-in ou late check-out, por gentileza consultar a recepção disponibilidade e valores.</li>
@@ -145,15 +163,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const texto = `
-          <p>Prezado(a) ${dados.nome},</p>
-          <p>Conforme solicitado, segue o orçamento para o período de ${dados.dataCheckin} a ${dados.dataCheckout} (${numeroDias} diárias):</p>
-          <pre>${listaPrecos}</pre>
-          <p>Preço Total: R$${precoTotal.toFixed(2)}</p>
-          ${informacoesUteis}
-          <p>Atenciosamente,</p>
-          <p>Sua Equipe do Moria Eco Lodge</p>
-      `;
+        <p>Prezado(a) ${dados.nome},</p>
+        <p>Conforme solicitado, segue o orçamento para o período de: <br>
+        Checkin: ${dataCheckinFormatada} <br>
+        Checkout: ${dataCheckoutFormatada} <br>
+        Quantidade de diarias: ${numeroDias} diária(s)</p>
+        <pre>${listaPrecos}</pre>
 
-      return texto;
+        ${informacoesUteis}
+        <p>Atenciosamente,</p>
+        <p>Equipe do Moria Eco Lodge</p>
+    `;
+
+    return texto;
   }
 });

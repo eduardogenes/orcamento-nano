@@ -1,73 +1,179 @@
+/* Estilos gerais */
 body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Fundo mais claro */
+    display: flex;
+    justify-content: center; /* Centralizar horizontalmente */
+    align-items: center; /* Centralizar verticalmente */
+    min-height: 100vh; /* Garante que o conteúdo ocupe a altura total da tela */
+    margin: 0;
 }
 
 .container {
     max-width: 800px;
-    margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 10px; /* Arredondamento suave das bordas */
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
 }
 
 h1 {
-    color: #ff5733;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-    text-align: center;
     font-size: 28px;
+    margin-bottom: 20px;
+    color: #333; /* Cor de texto mais escura */
+    text-align: center;
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group input[type="date"],
-.form-group select {
+/* Formulário */
+form {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.);
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333; /* Cor de texto mais escura */
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s;
-}
-
-.form-group input:focus {
-    border-color: #ff5733;
-    outline: none;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #ff5733;
-    color: white;
+    padding: 12px;
+    margin-bottom: 20px;
     border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: #f9f9f9; /* Fundo mais claro */
+    border-radius: 4px;
+    transition: border-color 0.3s, width 0.3s; /* Adicionamos uma transição para suavizar as mudanças */
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #FF5733; /* Cor de destaque (laranja) ao focar */
+    outline: none;
+    width: 100%; /* Evita que o input cresça ao focar */
+}
+
+/* Botão */
+button[type="submit"] {
+    background-color: #FF5733; /* Laranja */
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
     border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #e04e2a;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+button[type="submit"]:hover {
+    background-color: #E64A2E; /* Laranja mais escuro */
 }
 
+/* Resultado do Orçamento */
 #resultado {
-    margin-top: 20px;
+    display: none;
+    background-color: #ffffff; /* Fundo branco */
     padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    margin-top: 20px;
+    border: 1px solid #ccc;
     border-radius: 8px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    
 }
 
-@media (max-width: 600px) {
+#resultado p {
+    margin-bottom: 10px;
+    color: #333; /* Cor de texto mais escura */
+}
+
+/* Estilos para categorias */
+.checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    font-weight: bold;
+    color: #333; /* Cor de texto mais escura */
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Estilos para categorias selecionadas */
+#categorias-selecionadas {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333; /* Cor de texto mais escura */
+}
+
+/* Estilos para telas menores */
+@media screen and (max-width: 768px) {
     .container {
-        width: 95%;
-        margin: 10px;
+        padding: 10px;
     }
+
+    form {
+        padding: 10px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select {
+        padding: 10px;
+    }
+
+    button[type="submit"] {
+        padding: 10px 20px;
+    }
+}
+
+.checkbox-label {
+    flex-basis: calc(33.33% - 10px); /* Distribui as opções em 3 colunas */
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+    justify-content: space-
+  }
+
+  
+  input[type="text"],
+  input[type="number"],
+  input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+
+
+  #informacoes-uteis {
+    display: none;
+  }
+
+  .checkbox-label {
+    margin-right: 10px; /* Espaço à direita do checkbox */
+}
+
+button[type="submit"] {
+    margin-left: 10px; /* Espaço à esquerda do botão */
 }
