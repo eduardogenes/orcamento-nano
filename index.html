@@ -1,93 +1,91 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Moria - Orçamento de Reserva</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Moria - Orçamento de Reserva</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Moriá Eco Lodge - Orçamento de Reserva</h1>
-    <form id="orcamento-form">
-      <label for="nome">Nome do Hóspede:</label>
-      <input type="text" id="nome" required>
+    <div class="container">
+        <h1>Moriá Eco Lodge - Orçamento de Reserva</h1>
+        <form id="orcamento-form">
+            <div class="form-group">
+                <label for="nome">Nome do Hóspede:</label>
+                <input type="text" id="nome" required>
+            </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>Categorias do Quarto:</label>
-          <div class="checkbox-container">
+            <div class="form-group">
+                <label>Categorias do Quarto:</label>
+                <div class="checkbox-container">
             <label class="checkbox-label">
-              <input type="checkbox" id="classic" name="categorias" value="Classic">
+              <input type="checkbox" id="classic" name="categorias" value="classic">
               Classic
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" id="comfort" name="categorias" value="Comfort">
+              <input type="checkbox" id="comfort" name="categorias" value="comfort">
               Comfort
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" id="lodge" name="categorias" value="Lodge">
+              <input type="checkbox" id="lodge" name="categorias" value="lodge">
               Lodge
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" id="luxoHidro" name="categorias" value="Luxo Hidro">
+              <input type="checkbox" id="luxoHidro" name="categorias" value="luxoHidro">
               Luxo Hidro
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" id="premiumJacuzzi" name="categorias" value="Premium Jacuzzi">
+              <input type="checkbox" id="premiumJacuzzi" name="categorias" value="premiumJacuzzi">
               Premium Jacuzzi
             </label>
             <label class="checkbox-label">
-              <input type="checkbox" id="loftHidro" name="categorias" value="Loft Hidro">
+              <input type="checkbox" id="loftHidro" name="categorias" value="loftHidro">
               Loft Hidro
             </label>
           </div>
         </div>
 
         <div class="form-group date-container">
-            <div>
-                <label for="data-checkin">Check-in:</label>
-                <input type="date" id="data-checkin" required />
-            </div>
-            <div>
-                <label for="data-checkout">Check-out:</label>
-                <input type="date" id="data-checkout" required min="" onchange="setMinDate()" />
-            </div>
-        </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="adultos">Número de Adultos:</label>
-          <input type="number" id="adultos" required min="0">
-        </div>
-
-        <div class="form-group">
-          <label for="criancas">Número de Crianças:</label>
-          <input type="number" id="criancas" required min="0">
-        </div>
+          <div>
+              <label for="data-checkin">Check-in:</label>
+              <input type="date" id="data-checkin" required>
+          </div>
+          <div>
+              <label for="data-checkout">Check-out:</label>
+              <input type="date" id="data-checkout" required>
+          </div>
       </div>
 
-      <label for="valor-classic">Diária da Categoria Classic (R$):</label>
-      <input type="number" id="valor-classic" step="0.01" required min="0">
+      <div class="form-group">
+          <label for="adultos">Número de Adultos:</label>
+          <input type="number" id="adultos" required min="1">
+      </div>
 
+      <div class="form-group">
+          <label for="criancas">Número de Crianças:</label>
+          <input type="number" id="criancas" required min="0">
+      </div>
+
+      <div class="form-group">
+          <label for="valor-classic">Diária da Categoria Classic (R$):</label>
+          <input type="number" id="valor-classic" step="0.01" required min="0">
+      </div>
+
+      <div class="form-group">
           <label class="checkbox-label">
-            <input type="checkbox" id="info-uteis" name="info-uteis" value="mostrar">
-            Incluir informações úteis
-    </label>
+              <input type="checkbox" id="info-uteis" name="info-uteis" value="mostrar">
+              Incluir informações úteis
+          </label>
+      </div>
 
       <button type="submit">Calcular Orçamento</button>
-    </form>
+  </form>
 
-    <div id="resultado" style="display: none">
+  <div id="resultado" style="display: none">
       <!-- Resultado do orçamento será exibido aqui -->
     </div>
   </div>
-  <script>
-    function setMinDate() {
-        const dataCheckin = document.getElementById("data-checkin").value;
-        document.getElementById("data-checkout").min = dataCheckin;
-    }
-</script>
-  <script src="./script.js"></script>
+</div>
+<script src="./script.js"></script>
 </body>
 </html>

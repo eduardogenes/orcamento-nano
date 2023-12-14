@@ -1,121 +1,125 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("orcamento-form");
-    const resultado = document.getElementById("resultado");
-    const mostrarInformacoes = document.getElementById("info-uteis");
-  
-    form.addEventListener("submit", function (e) {
+  const form = document.getElementById("orcamento-form");
+  const resultado = document.getElementById("resultado");
+
+  form.addEventListener("submit", function (e) {
       e.preventDefault();
-  
-      const nome = document.getElementById("nome").value;
-      const dataCheckin = document.getElementById("data-checkin").value;
-      const dataCheckout = document.getElementById("data-checkout").value;
-      const adultos = parseInt(document.getElementById("adultos").value);
-      const criancas = parseInt(document.getElementById("criancas").value);
-      const valorClassic = parseFloat(document.getElementById("valor-classic").value);
-  
-      // Coletar categorias selecionadas
-      const categoriasSelecionadas = [];
-      const categoriasCheckboxes = document.querySelectorAll('input[name="categorias"]:checked');
-      categoriasCheckboxes.forEach(checkbox => {
-        categoriasSelecionadas.push(checkbox.value);
-      });
-  
-      // Verificar se o usuário selecionou pelo menos uma categoria
-      if (categoriasSelecionadas.length === 0) {
-        alert("Por favor, selecione pelo menos uma categoria de quarto.");
-        return;
+
+      if (!validarFormulario()) {
+          return; // Interrompe a execução se a validação falhar
       }
-  
-      const incluirInformacoes = mostrarInformacoes.checked;
-      const precosBase = calcularPrecoBase(valorClassic, incluirInformacoes);
-      const precoTotal = calcularPrecoTotal(precosBase, categoriasSelecionadas, dataCheckin, dataCheckout);
-  
-      const textoOrcamento = gerarTextoOrcamento(nome, categoriasSelecionadas, dataCheckin, dataCheckout, adultos, criancas, valorClassic, precoTotal, precosBase, incluirInformacoes);
-  
+
+      const dadosOrcamento = coletarDadosFormulario();
+      const precosBase = calcularPrecoBase(dadosOrcamento.valorClassic, dadosOrcamento.incluirInformacoes);
+      const precoTotal = calcularPrecoTotal(precosBase, dadosOrcamento.categoriasSelecionadas, dadosOrcamento.dataCheckin, dadosOrcamento.dataCheckout);
+      const textoOrcamento = gerarTextoOrcamento(dadosOrcamento, precoTotal, precosBase);
+
       // Exibir o texto na div resultado com formatação HTML
       resultado.innerHTML = textoOrcamento;
       resultado.style.display = "block"; // Mostrar a div resultado
-    });
-  
-    // Função para calcular o preço base com base na diária da categoria Classic
-    function calcularPrecoBase(valorClassic, incluirInformacoes) {
-      // Certifique-se de que valorClassic seja um número válido
-      if (typeof valorClassic !== 'number' || isNaN(valorClassic) || valorClassic <= 0) {
-        alert("Por favor, insira um valor válido para a diária da categoria Classic.");
-        return {}; // Retorna um objeto vazio em caso de erro
+  });
+
+  function validarFormulario() {
+      const dataCheckin = document.getElementById("data-checkin").value;
+      const dataCheckout = document.getElementById("data-checkout").value;
+      const dataCheckinObj = new Date(dataCheckin);
+      const dataCheckoutObj = new Date(dataCheckout);
+
+      if (dataCheckinObj >= dataCheckoutObj) {
+          alert("A data de check-out deve ser posterior à data de check-in.");
+          return false;
       }
-  
-      // Calcular preços base para outras categorias com base no valorClassic
+
+      return true; // Retorna verdadeiro se todas as validações passarem
+  }
+
+  function coletarDadosFormulario() {
+      return {
+          nome: document.getElementById("nome").value,
+          dataCheckin: document.getElementById("data-checkin").value,
+          dataCheckout: document.getElementById("data-checkout").value,
+          adultos: parseInt(document.getElementById("adultos").value),
+          criancas: parseInt(document.getElementById("criancas").value),
+          valorClassic: parseFloat(document.getElementById("valor-classic").value),
+          categoriasSelecionadas: Array.from(document.querySelectorAll('input[name="categorias"]:checked')).map(checkbox => checkbox.value),
+          incluirInformacoes: document.getElementById("info-uteis").checked
+      };
+  }
+
+  function calcularPrecoBase(valorClassic, incluirInformacoes) {
+      if (typeof valorClassic !== 'number' || isNaN(valorClassic) || valorClassic <= 0) {
+          alert("Por favor, insira um valor válido para a diária da categoria Classic.");
+          return {};
+      }
+
       const valorComfort = valorClassic * 1.2;
       const valorLodge = valorComfort * 1.2;
       const valorLuxoHidro = valorLodge * 1.25;
       const valorPremiumJacuzzi = valorLuxoHidro * 1.15;
       const valorLoftHidro = valorPremiumJacuzzi * 1.3;
-  
+
       const precosBase = {
-        classic: valorClassic,
-        comfort: valorComfort,
-        lodge: valorLodge,
-        luxoHidro: valorLuxoHidro,
-        premiumJacuzzi: valorPremiumJacuzzi,
-        loftHidro: valorLoftHidro,
+          classic: valorClassic,
+          comfort: valorComfort,
+          lodge: valorLodge,
+          luxoHidro: valorLuxoHidro,
+          premiumJacuzzi: valorPremiumJacuzzi,
+          loftHidro: valorLoftHidro,
       };
-  
+
       if (incluirInformacoes) {
-        // Adicione os preços das informações úteis
-        precosBase.informacoesUteis = 50.0; // Atualize o valor conforme necessário
+          precosBase.informacoesUteis = 50.0;
       }
-  
+
       return precosBase;
-    }
-  
-    // Função para calcular o preço total com base no preço base, categorias e datas de check-in e check-out
-    function calcularPrecoTotal(precoBase, categoriasSelecionadas, dataCheckin, dataCheckout) {
+  }
+
+  function calcularPrecoTotal(precoBase, categoriasSelecionadas, dataCheckin, dataCheckout) {
       const numeroDias = calcularNumeroDias(dataCheckin, dataCheckout);
       let precoTotal = 0;
-  
-      // Calcular o preço total somando os preços das categorias selecionadas
+
       categoriasSelecionadas.forEach(categoria => {
-        precoTotal += precoBase[categoria];
+          precoTotal += precoBase[categoria];
       });
-  
+
       return precoTotal * numeroDias;
-    }
-  
-    // Função para calcular o número de dias com base nas datas de check-in e check-out
-    function calcularNumeroDias(dataCheckin, dataCheckout) {
+  }
+
+  function calcularNumeroDias(dataCheckin, dataCheckout) {
       const dataCheckinObj = new Date(dataCheckin);
       const dataCheckoutObj = new Date(dataCheckout);
-      const umDiaEmMilissegundos = 24 * 60 * 60 * 1000; // Um dia em milissegundos
+      const umDiaEmMilissegundos = 24 * 60 * 60 * 1000;
       const diferencaEmDias = Math.round((dataCheckoutObj - dataCheckinObj) / umDiaEmMilissegundos);
       return diferencaEmDias;
-    }
-  
-    function gerarTextoOrcamento(nome, categoriasSelecionadas, dataCheckin, dataCheckout, adultos, criancas, valorClassic, precoTotal, precosBase, incluirInformacoes) {
-      const numeroDias = calcularNumeroDias(dataCheckin, dataCheckout);
-  
-      // Mapear os valores das categorias selecionadas para nomes completos
-      const categoriasNomes = {
+  }
+
+  function gerarTextoOrcamento(dados, precoTotal, precosBase) {
+    const numeroDias = calcularNumeroDias(dados.dataCheckin, dados.dataCheckout);
+
+    const categoriasNomes = {
         classic: "Classic",
         comfort: "Comfort",
         lodge: "Lodge",
         luxoHidro: "Luxo Hidro",
         premiumJacuzzi: "Premium Jacuzzi",
         loftHidro: "Loft Hidro"
-      };
-  
-      // Construir a lista de preços por categoria
-      let listaPrecos = '';
-      categoriasSelecionadas.forEach(categoria => {
-        listaPrecos += `${categoriasNomes[categoria]} R$${precosBase[categoria].toFixed(2)} por diária\n`;
-      });
-  
-      // Construir o texto das informações úteis se a opção estiver marcada
+    };
+
+    let listaPrecos = '';
+    dados.categoriasSelecionadas.forEach(categoria => {
+        // Verificar se o preço para a categoria existe
+        if (precosBase[categoria] !== undefined) {
+            listaPrecos += `${categoriasNomes[categoria]}: R$${precosBase[categoria].toFixed(2)} por diária\n`;
+        } else {
+            console.error(`Preço não encontrado para a categoria: ${categoria}`);
+        }
+    });
+
       let informacoesUteis = '';
-      if (incluirInformacoes) {
-        informacoesUteis = `
-          <p>INFORMAÇÕES ÚTEIS:</p>
-          <ul>
+      if (dados.incluirInformacoes) {
+          informacoesUteis = `
+              <p>INFORMAÇÕES ÚTEIS:</p>
+              <ul>
             <li>Tarifas válidas e confirmação sujeita a disponibilidade.</li>
             <li>Nossas diárias incluem café da manhã e Wi-Fi gratuito.</li>
             <li>Nosso check-in é a partir das 14:00 e check-out até as 12:00 - Para early check-in ou late check-out, por gentileza consultar a recepção disponibilidade e valores.</li>
@@ -136,25 +140,20 @@ document.addEventListener("DOMContentLoaded", function () {
           <p>Moria Eco Lodge</p>
           <p>(85) 98109.7155</p>
           <p>reservas.moria@nanohoteis.com.br</p>
-        `;
+          </ul>
+          `;
       }
-  
-      // Retornar o texto do orçamento completo
+
       const texto = `
-        <p>Prezado(a) ${nome},</p>
-  
-        <p>Conforme solicitado, segue orçamento por categoria:</p>
-        <p>Período: ${dataCheckin} a ${dataCheckout} - ${numeroDias} diárias</p>
-        <p>Valores por diária com café da manhã incluso</p>
-        <pre>
-        ${listaPrecos}
-        </pre>
-  
-        ${informacoesUteis}
+          <p>Prezado(a) ${dados.nome},</p>
+          <p>Conforme solicitado, segue o orçamento para o período de ${dados.dataCheckin} a ${dados.dataCheckout} (${numeroDias} diárias):</p>
+          <pre>${listaPrecos}</pre>
+          <p>Preço Total: R$${precoTotal.toFixed(2)}</p>
+          ${informacoesUteis}
+          <p>Atenciosamente,</p>
+          <p>Sua Equipe do Moria Eco Lodge</p>
       `;
-  
+
       return texto;
   }
-  
-  });
-  
+});
