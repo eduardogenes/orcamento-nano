@@ -77,7 +77,6 @@ const copiarTextoResultado = () => {
     document.body.appendChild(inputTemporario);
     inputTemporario.select();
     inputTemporario.setSelectionRange(0, 99999);
-    document.execCommand("copy");
     document.body.removeChild(inputTemporario);
     
     // Feedback visual
