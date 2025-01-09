@@ -3,94 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Moria - Orçamento de Reserva</title>
+    <title>Moriá - Orçamento de Reserva</title>
 </head>
 <body>
     <div class="container">
-        <h1>Moriá Eco Lodge - Orçamento de Reserva</h1>
-        <form id="orcamento-form">
-            <div class="form-group">
-                <label for="nome">Nome do Hóspede:</label>
-                <input type="text" id="nome" required>
+        <h1>
+            <i class="fas fa-hotel"></i>
+            Moriá Eco Lodge - Orçamento de Reserva
+        </h1>
+        
+        <form id="orcamentoForm">
+            <div class="form-section cliente-section">
+                <h2><i class="fas fa-user"></i> Informações do Cliente</h2>
+                <div class="form-group">
+                    <label for="nome">Nome do Hóspede:</label>
+                    <input type="text" id="nome" required placeholder="Digite o nome completo">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="exemplo@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Categorias do Quarto:</label>
-                <div class="checkbox-container">
-            <label class="checkbox-label">
-              <input type="checkbox" id="classic" name="categorias" value="classic">
-              Classic
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" id="comfort" name="categorias" value="comfort">
-              Comfort
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" id="lodge" name="categorias" value="lodge">
-              Lodge
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" id="luxoHidro" name="categorias" value="luxoHidro">
-              Luxo Hidro
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" id="premiumJacuzzi" name="categorias" value="premiumJacuzzi">
-              Premium Jacuzzi
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" id="loftHidro" name="categorias" value="loftHidro">
-              Loft Hidro
-            </label>
-          </div>
+            <div class="form-section periodo-section">
+                <h2><i class="fas fa-calendar"></i> Período e Ocupação</h2>
+                <div class="form-group date-container">
+                    <div>
+                        <label for="data-checkin">Check-in:</label>
+                        <input type="date" id="data-checkin" required>
+                    </div>
+                    <div>
+                        <label for="data-checkout">Check-out:</label>
+                        <input type="date" id="data-checkout" required>
+                    </div>
+                </div>
+
+                <div class="form-group pessoas-container">
+                    <div>
+                        <label for="adultos">Número de Adultos:</label>
+                        <div class="number-input">
+                            <button type="button" onclick="decrementValue('adultos')">-</button>
+                            <input type="number" id="adultos" name="adultos" value="1" min="1" max="10" readonly>
+                            <button type="button" onclick="incrementValue('adultos')">+</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="criancas">Número de Crianças:</label>
+                        <div class="number-input">
+                            <button type="button" onclick="decrementValue('criancas')">-</button>
+                            <input type="number" id="criancas" name="criancas" value="0" min="0" max="10" readonly>
+                            <button type="button" onclick="incrementValue('criancas')">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section categorias-section">
+                <h2><i class="fas fa-bed"></i> Categorias de Quarto</h2>
+                <div class="form-group">
+                    <div class="checkbox-container">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="classic" name="categorias" value="classic">
+                            Classic
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="comfort" name="categorias" value="comfort">
+                            Comfort
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="lodge" name="categorias" value="lodge">
+                            Lodge
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="luxoHidro" name="categorias" value="luxoHidro">
+                            Luxo Hidro
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="premiumJacuzzi" name="categorias" value="premiumJacuzzi">
+                            Premium Jacuzzi
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="loftHidro" name="categorias" value="loftHidro">
+                            Loft Hidro
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor-classic">Diária da Categoria Classic (R$):</label>
+                    <input type="number" id="valor-classic" step="0.01" required min="0">
+                </div>
+            </div>
+
+            <div class="form-section opcoes-section">
+                <h2><i class="fas fa-plus-circle"></i> Opções Adicionais</h2>
+                <div class="form-group">
+                    <label for="observacoes">Observações Especiais:</label>
+                    <textarea id="observacoes" rows="3" placeholder="Digite aqui qualquer observação importante..."></textarea>
+                </div>
+
+                <div class="form-group opcoes-container">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="info-uteis" name="info-uteis" value="mostrar">
+                        <i class="fas fa-info-circle"></i> Incluir informações úteis
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="tem-pet" name="tem-pet" value="sim">
+                        <i class="fas fa-paw"></i> Possui Pet
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit">
+                <i class="fas fa-calculator"></i> Calcular Orçamento
+            </button>
+        </form>
+
+        <div id="resultado" style="display: none">
+            <!-- Resultado do orçamento será exibido aqui -->
         </div>
-
-        <div class="form-group date-container">
-          <div>
-              <label for="data-checkin">Check-in:</label>
-              <input type="date" id="data-checkin" required>
-          </div>
-          <div>
-              <label for="data-checkout">Check-out:</label>
-              <input type="date" id="data-checkout" required>
-          </div>
-      </div>
-
-      <div class="form-group">
-          <label for="adultos">Número de Adultos:</label>
-          <input type="number" id="adultos" required min="1">
-      </div>
-
-      <div class="form-group">
-          <label for="criancas">Número de Crianças:</label>
-          <input type="number" id="criancas" required min="0">
-      </div>
-
-      <div class="form-group">
-          <label for="valor-classic">Diária da Categoria Classic (R$):</label>
-          <input type="number" id="valor-classic" step="0.01" required min="0">
-      </div>
-
-      <div class="form-group">
-          <label class="checkbox-label">
-              <input type="checkbox" id="info-uteis" name="info-uteis" value="mostrar">
-              Incluir informações úteis
-          </label>
-      </div>
-
-      <button type="submit">Calcular Orçamento</button>
-  </form>
-
-  <div id="resultado" style="display: none">
-      <!-- Resultado do orçamento será exibido aqui -->
+        
+        <div id="copy">
+            <button id="copiar-botao">
+                <i class="far fa-copy"></i> Copiar Texto
+            </button>
+        </div>
     </div>
-    
-    <div id="copy">
-
-      <button id="copiar-botao">copy text</button>
-    </div>
-  </div>
-</div>
-<script src="./script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
